@@ -21,7 +21,7 @@ Senior engineers.
 We do NOT Google or ask AI for commands.
 We use the tools the system gives us.
 
-Prove you can find and read information yourself without exiting the terminal for the
+Prove you can find and read information yourself without exiting the terminal, solve the
 following challenges, and you will get the job. Fail, and you're out."
 EOF
 
