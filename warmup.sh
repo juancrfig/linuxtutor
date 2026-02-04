@@ -20,13 +20,15 @@ WELCOME TO THE DEVOPS DAILY WARM-UP
 =============================================
 
 Good morning. As you know, AI created Skynet some years ago and humankind had
-to ban it. We need to make sure you don't need it to perform. It's only allowed for
-Senior engineers.
+to ban it. We need to make sure you don't need it to perform. 
+It's only allowed for Senior engineers.
 
 We do NOT Google or ask AI for commands.
 We use the tools the system gives us.
 
-Prove you can find and read information yourself without exiting the terminal while solving the following challenges, and you will get the job. Fail, and you're out.
+Prove you can find and read information yourself without exiting the terminal 
+while solving the following challenges, and you will get the job. 
+Fail, and you're out.
 EOF
 
 echo
@@ -55,7 +57,9 @@ These are how every good engineer finds and understands commands.
    b                    Move backward one full screen
    j                    Move down one line
    k                    Move up one line
-   /word                Search forward for 'word' (e.g. /example or /-r)
+   h                    Move to the left
+   l                    Move to the right
+   /word                Search forward for 'word'
    ?word                Search backward for 'word'
    n                    Jump to next search match
    N                    Jump to previous search match
@@ -75,7 +79,7 @@ Excellent. You now know:
 
 That's already a massive edge over most beginners.
 
-Warm-up complete. Let's get to real work.
+Let's get to real work.
 EOF
 
 echo
@@ -120,8 +124,9 @@ Task 2/9
 Let's start with some Linux gymnastics...
 
 1. Create a temporary user called 'tempuser' (with home dir).
-2. Ops! Change its username to 'tmpuser'.
-3. Create a file owned by tmpuser, set it to: owner rw, group r, others nothing. (Use octal permissions mode)
+2. Ops! Change its username to 'tmpuser', update its home directory as well.
+3. Create a file owned by tmpuser, set it to: owner rw, group r, others nothing. 
+(Use octal permissions mode).
 4. Finally — delete tmpuser completely (including home).
 
 When you have done ALL steps and seen the results,
@@ -138,20 +143,17 @@ cat <<EOF
 Task 3/9
 ─────────
 
-Now create our persistent test user for the week: 'layla'.
-Give her a home directory and proper bash shell.
+Now create another user: 'layla'.
+Make sure she has  a home directory and proper bash shell.
 
 Then — create three files inside her home directory with these permissions:
 
-1. layla-secret.txt     →  (only owner rw)
-2. layla-report.txt     →  (owner rw, group+others r)
-3. layla-script.sh      →  (owner rwx, group+others rx)
+1. secret.txt     →  (only owner rw)
+2. report.txt     →  (owner rw, group+others r)
+3. script.sh      →  (owner rwx, group+others rx)
 
 Self-check you MUST perform:
 - Run ls -l in /home/layla and verify all three permissions are correct
-- As layla, try to read/write each file → understand what succeeds/fails
-- As your own user (without sudo), try to read layla-report.txt → should work
-- Try to read layla-secret.txt → should fail
 
 Only press Enter when you have tested ALL of this yourself.
 EOF
