@@ -16,7 +16,7 @@ cd "$SANDBOX" || exit 1
 clear
 cat << "EOF"
 =============================================
-WELCOME TO THE DEVOPS DAILY WARM-UP
+WELCOME TO THE LINUX DAILY WARM-UP
 =============================================
 
 Good morning. As you know, AI created Skynet some years ago and humankind had
@@ -69,7 +69,7 @@ These are how every good engineer finds and understands commands.
 EOF
 
 echo
-read -p "Press Enter when you're ready for the first practice task..."
+read -p "Press Enter to continue..."
 
 clear
 cat << "EOF"
@@ -98,7 +98,7 @@ Task 1/9
 ─────────
 
 Before you touch anything, find out who you really are
-on this system. Use four different commands."
+on this system. Use four different commands.
 
 Self-check:
 - One command shows just your username.
@@ -153,9 +153,9 @@ Then — create three files inside her home directory with these permissions:
 3. script.sh      →  (owner rwx, group+others rx)
 
 Self-check you MUST perform:
-- Run ls -l in /home/layla and verify all three permissions are correct
+- List the files in long format to verify all is correct
 
-Only press Enter when you have tested ALL of this yourself.
+Press Enter to continue...
 EOF
 
 read -p ""
@@ -189,18 +189,14 @@ cat <<EOF
 Task 5/9
 ─────────
 
-Senior: "Back to audit. Look inside these three files without sudo:"
+Intern!
 
 a) What pretty name does this OS/distribution have?
-b) Does your own user appear in the users file? Find your line.
-c) What is the sudo / wheel group definition?
+b) Print the names of the users who have a bash shell assigned (use pipes)
+c) What makes the sudo/wheel groups special?
 
-Self-check:
-Read each file. Understand at least one useful line in each.
 
-When you're comfortable with what you saw,
-
-press Enter...
+When you are ready, press Enter...
 EOF
 
 read -p ""
@@ -213,20 +209,6 @@ cat <<EOF
 Task 6/9
 ─────────
 
-Senior: "Inside day1/ create a file called team-secret.txt
-with some fake content (API token or whatever).
-Set permissions so ONLY the owner can read or write it."
-
-Self-check (do this!):
-1. Check the permissions yourself
-2. su - layla (or sudo -u layla cat day1/team-secret.txt)
-3. Observe the permission denied message
-4. Exit back to your user
-
-Only press Enter when you SAW layla get denied.
-EOF
-
-read -p ""
 
 # ────────────────────────────────────────────────────────────────
 # Task 7 – Relax permissions
