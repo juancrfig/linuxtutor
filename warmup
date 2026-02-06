@@ -126,7 +126,7 @@ Let's start with some Linux gymnastics...
 1. Create a temporary user called 'tempuser' (with home dir).
 2. Ops! Change its username to 'tmpuser', update its home directory as well.
 3. Create a file owned by tmpuser, set it to: owner rw, group r, others nothing. 
-(Use octal permissions mode).
+(Use octal permissions mode always!).
 4. Finally — delete tmpuser completely (including home).
 
 When you have done ALL steps and seen the results,
@@ -202,83 +202,21 @@ EOF
 read -p ""
 
 # ────────────────────────────────────────────────────────────────
-# Task 6 – Private file test
+# Task 6  - ....
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
 Task 6/9
 ─────────
+Show me you understand how permissions work with directories and files.
+Create a directory, and inside a file with permissions:
+owner -> rw, group -> r, others -> r
+For the directory, set it to:
+owner -> rw, group -> rw, others, rw 
 
-
-# ────────────────────────────────────────────────────────────────
-# Task 7 – Relax permissions
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Task 7/9
-─────────
-
-Senior: "Actually… marketing needs to see the token (read-only).
-Adjust permissions so everyone can read, but only owner can write."
-
-Self-check:
-1. Check new permissions
-2. su - layla and try to READ the file (should succeed)
-3. Try to write/append as layla (should fail)
-4. Exit back
-
-When both tests pass,
-
-press Enter...
 EOF
 
 read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Task 8 – System snapshot
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Task 8/9
-─────────
-
-Senior: "Before ending the morning, collect these three facts:"
-
-- The system's hostname
-- How long it has been running (uptime output)
-- Current date/time according to the server
-
-Self-check:
-Run each command. Read the output.
-Understand what it means in a production context.
-
-When you have them in your head,
-
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Task 9 – Wrap-up
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Task 9/9 – Good first morning
-
-Senior: "Not bad for day one.
-You can leave layla for later exercises (Wednesday will use her),
-or clean her up now if you prefer (deluser --remove-home layla).
-
-Your choice.
-
-Day 1 complete.
-See you tomorrow — bring coffee."
-EOF
-
-echo
-read -p "Press Enter to finish Day 1..."
-clear
 
 cat <<EOF
 ═══════════════════════════════════════════
