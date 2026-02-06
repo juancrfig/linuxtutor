@@ -83,7 +83,95 @@ Let's get to real work.
 EOF
 
 echo
-read -p "Press Enter to start Day 1 of Internship..."
+read -p "Press Enter to continue..."
+
+# ────────────────────────────────────────────────────────────────
+# SETUP – CONNECT TO YOUR WORKSTATION
+# ────────────────────────────────────────────────────────────────
+
+clear
+cat <<EOF
+═══════════════════════════════════════════════════════════════
+                    KUBECRAFT ONBOARDING
+═══════════════════════════════════════════════════════════════
+
+Welcome, engineer. Before you touch production systems,
+you need a proper workspace.
+
+Your workstation is waiting at: 192.168.1.100
+User: engineer
+
+First: Connect via SSH and set up your environment.
+EOF
+
+read -p "Press Enter when ready..."
+
+# ────────────────────────────────────────────────────────────────
+# SSH Setup Task
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+SETUP TASK 1/2: SSH Connection
+───────────────────────────────
+
+Your workstation is at 192.168.1.100
+
+1. SSH into the server as user 'engineer'
+2. Check the OS version (hint: /etc/os-release)
+3. Verify you can run commands remotely without logging in:
+   ssh engineer@192.168.1.100 "whoami"
+
+When connected and verified,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Tmux Setup Task
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+SETUP TASK 2/2: Terminal Multiplexer
+─────────────────────────────────────
+
+You'll be monitoring logs, editing configs, and running commands.
+Do it all from one terminal with tmux.
+
+1. Install tmux on the remote server
+2. Create a new session named 'work'
+3. Split the window vertically (two panes side by side)
+4. In the left pane: watch system uptime
+5. In the right pane: watch active network connections
+6. Detach from the session (keep it running)
+7. List all tmux sessions
+8. Re-attach to your 'work' session
+
+When your workspace is persistent and organized,
+press Enter...
+EOF
+
+read -p ""
+
+clear
+cat <<EOF
+═══════════════════════════════════════════════════════════════
+                    WORKSPACE READY
+═══════════════════════════════════════════════════════════════
+
+You now have:
+✓ SSH access to your workstation
+✓ Persistent tmux session for multitasking
+
+You're ready for real work.
+
+Remember: Detach with Ctrl+b d, re-attach anytime with:
+  tmux attach -t work
+
+Press Enter to begin Day 1...
+EOF
+
+read -p ""
 
 # ────────────────────────────────────────────────────────────────
 # DAY 1 – FIRST MORNING AS KUBECRAFT INTERN
@@ -307,7 +395,195 @@ You have proven you can:
 ✓ Traverse the filesystem and wrangle text
 ✓ Control processes and services
 
-Tomorrow: Networking, SSH, and package management.
+Tomorrow: Networking, package management, and system monitoring.
 
 Rest well, engineer.
+EOF
+
+# ────────────────────────────────────────────────────────────────
+# DAY 2 – NETWORK & SYSTEM OPS
+# ────────────────────────────────────────────────────────────────
+
+read -p ""
+clear
+cat <<EOF
+═══════════════════════════════════════════════════════════════
+     DAY 2 – NETWORK OPERATIONS
+═══════════════════════════════════════════════════════════════
+
+Good morning. Today you're troubleshooting connectivity
+and monitoring system health. No GUI tools allowed.
+
+Press Enter to begin...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Day 2 Task 1 - Network Diagnostics
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Day 2 – Task 1/6
+─────────────────
+
+Users report they can't reach the internet.
+
+1. Check your IP address and network interfaces
+2. Verify the default gateway is reachable
+3. Test DNS resolution by pinging google.com (limit to 3 packets)
+4. Check if port 443 is listening locally (HTTPS)
+5. Download a file using curl (save it, don't display it)
+
+When you've diagnosed connectivity,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Day 2 Task 2 - Log Analysis with Pipes
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Day 2 – Task 2/6
+─────────────────
+
+Analyze this web server log pattern. First create test data:
+
+  cat > /tmp/access.log <<'END'
+  192.168.1.10 - GET /api/users 200
+  192.168.1.11 - POST /api/login 401
+  192.168.1.10 - GET /api/users 200
+  192.168.1.12 - GET /api/admin 403
+  192.168.1.11 - POST /api/login 401
+  192.168.1.10 - GET /api/users 200
+  END
+
+Now:
+1. Extract only the IP addresses (first column)
+2. Sort them and count unique occurrences
+3. Show only IPs that appear more than once
+4. Filter for failed requests (401 or 403 codes) and count them
+
+Use only pipes. No text editors.
+
+When the attack pattern is clear,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Day 2 Task 3 - Package Management
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Day 2 – Task 3/6
+─────────────────
+
+You need to deploy a monitoring stack.
+
+1. Search for packages containing 'htop' or 'btop'
+2. Check if htop is already installed
+3. Install htop (or confirm it's present)
+4. Verify the installation path using TWO different methods
+5. Purge the package and confirm it's gone
+6. Reinstall it (you'll need it later)
+
+When your package management is surgical,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Day 2 Task 4 - Disk & Memory Monitoring
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Day 2 – Task 4/6
+─────────────────
+
+The server is running slow. Investigate resource usage.
+
+1. Check how long the system has been up
+2. View memory usage in human-readable format
+3. Find the 3 largest directories under /var/log
+4. Check disk space on all mounted filesystems
+5. Identify which filesystem is mounted on /boot (if any)
+
+BONUS: Find files larger than 100MB in /home
+
+When you know where the space went,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Day 2 Task 5 - Service Troubleshooting
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Day 2 – Task 5/6
+─────────────────
+
+The SSH service stopped responding.
+
+1. Check if ssh service is currently running
+2. View the last 50 lines of SSH logs
+3. Check if ssh is enabled to start at boot
+4. Restart the ssh service safely
+5. Verify it's listening on port 22
+6. Follow SSH logs in real-time (Ctrl+C when done)
+
+When the service is healthy and monitored,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Day 2 Task 6 - File Search & Permissions
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Day 2 – Task 6/6
+─────────────────
+
+Security audit time. Find potential issues.
+
+1. Find all files in /tmp owned by root (if accessible)
+2. Find all .log files in /var modified in the last 7 days
+3. Create a test file and set permissions so:
+   - Owner can read/write
+   - Group can only read
+   - Others have no access
+4. Create a directory with the same permissions
+5. Test: Can you cd into the directory without execute permission?
+   (This tests your understanding of directory vs file permissions)
+
+When security makes sense,
+press Enter...
+EOF
+
+read -p ""
+
+cat <<EOF
+═══════════════════════════════════════════════════════════════
+     Kubecraft Daily Warm-up – Day 2 COMPLETE
+═══════════════════════════════════════════════════════════════
+
+You have proven you can:
+✓ Diagnose network connectivity
+✓ Analyze logs with pipeline precision
+✓ Manage packages efficiently
+✓ Monitor system resources
+✓ Troubleshoot and control services
+✓ Search files and understand permissions
+
+You're no longer an intern. You're an engineer.
+
+Tomorrow: Bash scripting and automation.
 EOF
