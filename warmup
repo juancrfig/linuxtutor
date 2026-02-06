@@ -98,54 +98,113 @@ cat <<EOF
 Welcome, engineer. Before you touch production systems,
 you need a proper workspace.
 
-Your workstation is waiting at: 192.168.1.100
-User: engineer
+Your homelab is your training ground. We're going to connect
+to it properly — the way real engineers do.
 
-First: Connect via SSH and set up your environment.
+First: SSH into your own homelab manually. You'll need:
+- Your homelab's IP address
+- A user account on it
+
+No shortcuts. Figure it out.
 EOF
 
 read -p "Press Enter when ready..."
 
 # ────────────────────────────────────────────────────────────────
-# SSH Setup Task
+# SSH Setup Task — The Hard Way
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
-SETUP TASK 1/2: SSH Connection
-───────────────────────────────
+SETUP TASK 1/3: SSH Connection (Manual)
+────────────────────────────────────────
 
-Your workstation is at 192.168.1.100
+0. FIRST — Clean slate. Check if you have any SSH configs for your homelab:
+   ls ~/.ssh/config
+   
+   If the file exists and contains your homelab, DELETE those lines.
+   We're building muscle memory — you type the connection every time.
+   No shortcuts. No saved configs. Just you and the command.
 
-1. SSH into the server as user 'engineer'
+1. SSH into your homelab manually (type the full command):
+   ssh username@your-homelab-ip
+
 2. Check the OS version (hint: /etc/os-release)
-3. Verify you can run commands remotely without logging in:
-   ssh engineer@192.168.1.100 "whoami"
 
-When connected and verified,
+3. Verify you can run commands remotely without logging in:
+   ssh username@your-homelab-ip "whoami"
+
+When you've connected manually and verified remote commands work,
 press Enter...
 EOF
 
 read -p ""
 
 # ────────────────────────────────────────────────────────────────
-# Tmux Setup Task
+# SSH Key Setup — Disable Password Auth
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
-SETUP TASK 2/2: Terminal Multiplexer
-─────────────────────────────────────
+SETUP TASK 2/3: SSH Keys & Passwordless Auth
+─────────────────────────────────────────────
 
-You'll be monitoring logs, editing configs, and running commands.
-Do it all from one terminal with tmux.
+Typing passwords is for interns. Real engineers use keys.
 
-1. Install tmux on the remote server
-2. Create a new session named 'work'
-3. Split the window vertically (two panes side by side)
-4. In the left pane: watch system uptime
-5. In the right pane: watch active network connections
-6. Detach from the session (keep it running)
-7. List all tmux sessions
-8. Re-attach to your 'work' session
+ON YOUR LOCAL MACHINE:
+1. Check if you have SSH keys: ls ~/.ssh/
+2. If not, generate a key pair: ssh-keygen
+3. Copy your public key to the homelab: ssh-copy-id username@homelab-ip
+4. Test: SSH into your homelab — it should NOT ask for a password
+
+ON YOUR HOMELAB (SSH'd in):
+5. Edit /etc/ssh/sshd_config — disable password authentication
+   (Find the line, change it, save)
+6. Restart the SSH service
+7. Test from a NEW terminal: password logins should now FAIL
+
+When password auth is disabled and keys work,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Tmux Gymnastics — Linux Muscle Memory
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+SETUP TASK 3/3: Tmux Gymnastics
+────────────────────────────────
+
+We're not just "installing tmux." We're building muscle memory.
+
+ON YOUR HOMELAB:
+
+1. List all packages on the system — find if tmux is installed
+   (Hint: your package manager can list packages)
+
+2. If tmux IS installed — uninstall it completely
+   If tmux is NOT installed — skip to step 3
+
+3. Install tmux fresh
+
+4. Verify the installation path using TWO different methods
+
+5. Check tmux version
+
+6. Create a new session named 'work'
+
+7. Split the window vertically (two panes side by side)
+
+8. In the left pane: watch system uptime
+   In the right pane: watch active network connections
+
+9. Detach from the session (keep it running)
+
+10. List all tmux sessions
+
+11. Re-attach to your 'work' session
+
+This is Linux gymnastics. Do it messy, do it slow, but do it yourself.
 
 When your workspace is persistent and organized,
 press Enter...
