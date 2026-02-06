@@ -202,28 +202,112 @@ EOF
 read -p ""
 
 # ────────────────────────────────────────────────────────────────
-# Task 6  - ....
+# Task 6  - Filesystem Hierarchy & Find
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
 Task 6/9
 ─────────
-Show me you understand how permissions work with directories and files.
-Create a directory, and inside a file with permissions:
-owner -> rw, group -> r, others -> r
-For the directory, set it to:
-owner -> rw, group -> rw, others, rw 
+Navigate the filesystem like a senior engineer.
 
+1. Find the path to the 'passwd' executable using a command (not guessing).
+2. Create this structure in ~/sandbox/day1:
+   logs/
+   ├── app/
+   └── system/
+3. Inside logs/app, create 3 empty files: error.log, access.log, debug.log
+4. Use ONE command to find all .log files in logs/ and delete them.
+
+When you've completed all steps and verified,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Task 7  - Text Processing & Pipes
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Task 7/9
+─────────
+Text wrangling without leaving the terminal.
+
+First, run this to create test data:
+  echo -e "nginx\napache\nnginx\nmysql\napache\nnginx" > ~/sandbox/day1/services.txt
+
+Now:
+1. Sort the file and remove duplicates (one pipeline).
+2. Count how many lines contain 'nginx'.
+3. Show lines that DON'T contain 'nginx'.
+4. Replace all 'nginx' with 'openresty' in the output (don't modify file).
+
+When your pipeline-fu is proven,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Task 8  - Process Management
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Task 8/9
+─────────
+Master the running system.
+
+1. Start a sleep process in background: sleep 300 &
+2. List ALL running processes on the system (not just yours).
+3. Find the PID of your sleep process using pgrep.
+4. Politely terminate it (let it clean up).
+5. Verify it's gone.
+
+BONUS: Bring a background job to foreground, then send it back.
+
+When processes obey your commands,
+press Enter...
+EOF
+
+read -p ""
+
+# ────────────────────────────────────────────────────────────────
+# Task 9  - Service Management with systemd
+# ────────────────────────────────────────────────────────────────
+clear
+cat <<EOF
+Task 9/9
+─────────
+The final test: control the system itself.
+
+1. Check if the cron service is running (systemctl).
+2. View the last 20 log lines for cron (journalctl).
+3. Stop the cron service (don't worry, we'll restart it).
+4. Check status again — confirm it's stopped.
+5. Start it again and verify.
+
+Self-check:
+- Service runs at boot? Check with is-enabled.
+- What's the difference between stop and disable?
+
+When you've mastered systemd,
+press Enter...
 EOF
 
 read -p ""
 
 cat <<EOF
-═══════════════════════════════════════════
-     Kubecraft Daily Warm-up – Day 1 done
-═══════════════════════════════════════════
+═══════════════════════════════════════════════════════════════
+     Kubecraft Daily Warm-up – Day 1 COMPLETE
+═══════════════════════════════════════════════════════════════
 
-Tomorrow: deeper file system & text wrangling.
+You have proven you can:
+✓ Navigate man pages and find commands
+✓ Manage users, groups, and permissions
+✓ Traverse the filesystem and wrangle text
+✓ Control processes and services
 
-Rest well, intern.
+Tomorrow: Networking, SSH, and package management.
+
+Rest well, engineer.
 EOF
