@@ -257,8 +257,8 @@ Show me you know how to find files efficiently through the system
 1. Find the path to the passwd executable
 2. List all .log files in ~/sandbox directory
 3. Create the file ~/sandbox/day1/logs/app/secret.log
-4. What will happen if we used the 'locate' command? 
-5. What do we need to do to complete assignment 3 successfully using 'locate'?
+4. What will happen if we used the 'locate' command?
+    If the answer is an error, how to fix it?
 
 EOF
 read -r -p "Continue when ready..."
@@ -267,7 +267,7 @@ read -r -p "Continue when ready..."
 # Task 7  - Text Processing & Pipes
 # ────────────────────────────────────────────────────────────────
 clear
-cat > ~/sandbox/day1/truths.txt << 'END'
+cat > ~/sandbox/data.txt << 'END'
 Kubernetes is an open-source container orchestration platform.
 Docker is a platform for developing and running containers.
 Bash is the default shell on most Linux distributions.
@@ -284,7 +284,7 @@ Task 7/9
 ─────────
 Let's see your text manipulation and pipe skills
 
-Using this file:   ~/sandbox/day1/services.txt
+Using this file:   ~/sandbox/data.txt
 
 1. Sort the file alphabetically and remove duplicates 
 2. Count how many lines contain the word "Kubernetes".
@@ -347,4 +347,5 @@ read -r -p ""
 
 cat <<EOF
 Coming soon: Networking, system monitoring, and Bash Scripting
+
 EOF
