@@ -2,37 +2,29 @@
 set -euo pipefail
 
 # ────────────────────────────────────────────────────────────────
-# CONFIGURATION
-# ────────────────────────────────────────────────────────────────
-
-SANDBOX="$HOME/sandbox"
-mkdir -p "$SANDBOX/day1"
-cd "$SANDBOX" || exit 1
-
-# ────────────────────────────────────────────────────────────────
 # INTRO – MAN PAGES & SELF-RELIANCE
 # ────────────────────────────────────────────────────────────────
 
 clear
 cat << "EOF"
 =============================================
-WELCOME TO THE LINUX DAILY WARM-UP
+     WELCOME TO THE LINUX DAILY WARM-UP
 =============================================
 
-Good morning. As you know, AI created Skynet some years ago and humankind had
-to ban it. We need to make sure you don't need it to perform. 
+Good morning, intern. As you know, AI created Skynet some years ago 
+and humankind had to ban it. We need to make sure you don't need it to perform. 
 It's only allowed for Senior engineers.
 
 We do NOT Google or ask AI for commands.
 We use the tools the system gives us.
 
-Prove you can find and read information yourself without exiting the terminal 
+Prove you can find and read information without exiting the terminal 
 while solving the following challenges, and you will get the job. 
 Fail, and you're out.
+
 EOF
 
-echo
-read -p "Press Enter to accept the challenge and begin..."
+read -r -p "Press Enter to accept the challenge..."
 
 clear
 cat << "EOF"
@@ -68,22 +60,7 @@ These are how every good engineer finds and understands commands.
    ────────────────────────────────────────────────────────────────
 EOF
 
-echo
-read -p "Press Enter to continue..."
-
-clear
-cat << "EOF"
-Excellent. You now know:
-- How to find almost any command
-- How to navigate and quickly extract useful info from man pages
-
-That's already a massive edge over most beginners.
-
-Let's get to real work.
-EOF
-
-echo
-read -p "Press Enter to continue..."
+read -r -p "Press Enter to continue..."
 
 # ────────────────────────────────────────────────────────────────
 # SETUP – CONNECT TO YOUR WORKSTATION
@@ -92,153 +69,74 @@ read -p "Press Enter to continue..."
 clear
 cat <<EOF
 ═══════════════════════════════════════════════════════════════
-                    KUBECRAFT ONBOARDING
+                           ONBOARDING
 ═══════════════════════════════════════════════════════════════
 
-Welcome, engineer. Before you touch production systems,
-you need a proper workspace.
+Before you touch production systems, you need a proper workspace.
 
-Your homelab is your training ground. We're going to connect
-to it properly — the way real engineers do.
+Your homelab is your training ground. 
+We're going to connect and secure it properly, the way real engineers do.
 
-First: SSH into your own homelab manually. You'll need:
-- Your homelab's IP address
-- A user account on it
+SSH into your own homelab manually.
 
-No shortcuts. Figure it out.
+If you have an SSH config for your homelab, delete it. 
+We're building muscle memory.
+
+- Generate a pair of SSH keys in your local machine
+- Define an SSH host alias on your homelab 
+- Make sure password login is disabled on your homelab  
+
 EOF
 
-read -p "Press Enter when ready..."
-
-# ────────────────────────────────────────────────────────────────
-# SSH Setup Task — The Hard Way
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-SETUP TASK 1/3: SSH Connection (Manual)
-────────────────────────────────────────
-
-0. FIRST — Clean slate. Check if you have any SSH configs for your homelab:
-   ls ~/.ssh/config
-   
-   If the file exists and contains your homelab, DELETE those lines.
-   We're building muscle memory — you type the connection every time.
-   No shortcuts. No saved configs. Just you and the command.
-
-1. SSH into your homelab manually (type the full command):
-   ssh username@your-homelab-ip
-
-2. Check the OS version (hint: /etc/os-release)
-
-3. Verify you can run commands remotely without logging in:
-   ssh username@your-homelab-ip "whoami"
-
-When you've connected manually and verified remote commands work,
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# SSH Key Setup — Disable Password Auth
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-SETUP TASK 2/3: SSH Keys & Passwordless Auth
-─────────────────────────────────────────────
-
-Typing passwords is for interns. Real engineers use keys.
-
-ON YOUR LOCAL MACHINE:
-1. Check if you have SSH keys: ls ~/.ssh/
-2. If not, generate a key pair: ssh-keygen
-3. Copy your public key to the homelab: ssh-copy-id username@homelab-ip
-4. Test: SSH into your homelab — it should NOT ask for a password
-
-ON YOUR HOMELAB (SSH'd in):
-5. Edit /etc/ssh/sshd_config — disable password authentication
-   (Find the line, change it, save)
-6. Restart the SSH service
-7. Test from a NEW terminal: password logins should now FAIL
-
-When password auth is disabled and keys work,
-press Enter...
-EOF
-
-read -p ""
+read -r -p "Press Enter to continue..."
 
 # ────────────────────────────────────────────────────────────────
 # Tmux Gymnastics — Linux Muscle Memory
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
-SETUP TASK 3/3: Tmux Gymnastics
-────────────────────────────────
+Intern, show me you know how to install and manage packages
 
-We're not just "installing tmux." We're building muscle memory.
-
-ON YOUR HOMELAB:
-
-1. List all packages on the system — find if tmux is installed
-   (Hint: your package manager can list packages)
-
-2. If tmux IS installed — uninstall it completely
-   If tmux is NOT installed — skip to step 3
-
+1. List all packages on the system, find if tmux is installed
+2. If tmux is installed, uninstall it completely
 3. Install tmux fresh
 
-4. Verify the installation path using TWO different methods
+Now prove you didn't just apt install and pray. 
+In the real world, binaries hide. Old versions linger.
 
-5. Check tmux version
+- If we ran tmux right now, how to find the file or thing the shell would run?
+- What if there's an alias? How to find eveything the shell knows about a name?
+- How to find out if a program was installed manually or via package manager?
 
-6. Create a new session named 'work'
 
-7. Split the window vertically (two panes side by side)
-
-8. In the left pane: watch system uptime
-   In the right pane: watch active network connections
-
-9. Detach from the session (keep it running)
-
-10. List all tmux sessions
-
-11. Re-attach to your 'work' session
-
-This is Linux gymnastics. Do it messy, do it slow, but do it yourself.
-
-When your workspace is persistent and organized,
-press Enter...
 EOF
 
-read -p ""
+read -r -p "When you answer those questions, and know what commands use to do so, press Enter..."
 
 clear
 cat <<EOF
 ═══════════════════════════════════════════════════════════════
-                    WORKSPACE READY
+                      TMUX NAVIGATION WARMUP
 ═══════════════════════════════════════════════════════════════
+Create a 'work' session and split it vertically with two panes:
+- Left panel: Follow in real time the authentication logs: SSH logins, 
+  sudo attempts, failures)
+- Right panel: Display the entire system journal in real time
 
-You now have:
-✓ SSH access to your workstation
-✓ Persistent tmux session for multitasking
+Now prove you can actually live in tmux without crying for mouse or custom bindings.
+From now on, I expect from you to always use tmux, WITHOUT custom keybindings. 
+You'll find your own workflow style the more you use it. 
+Show me you know the basics though:
 
-You're ready for real work.
+- Detach from the session
+- Create more sessions, navigate among them. Get comfortable!
+- List all tmux sessions
+- Re-attach to your 'work' session
 
-Remember: Detach with Ctrl+b d, re-attach anytime with:
-  tmux attach -t work
-
-Press Enter to begin Day 1...
 EOF
 
-read -p ""
+read -r -p "When you have all set, press Enter to start the challenge..."
 
-# ────────────────────────────────────────────────────────────────
-# DAY 1 – FIRST MORNING AS KUBECRAFT INTERN
-# ────────────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────────────
-# Task 1
-# ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
 Task 1/9
@@ -253,12 +151,10 @@ Self-check:
 - One shows a more detailed view of logged-in users, what they are doing, and CPU usage.
 - One shows your user ID, main group, and secondary groups.
 
-When you have run all four commands and understand the differences
-between their outputs,
-press Enter to continue...
 EOF
 
-read -p ""
+read -r -p "When you have run all four commands and understand the differences
+between their outputs, press Enter to continue..."
 
 # ────────────────────────────────────────────────────────────────
 # Task 2 – Temporary user
@@ -276,24 +172,22 @@ Let's start with some Linux gymnastics...
 (Use octal permissions mode always!).
 4. Finally — delete tmpuser completely (including home).
 
-When you have done ALL steps and seen the results,
-press Enter...
 EOF
 
-read -p ""
+read -r -p "When you're ready, continue..."
 
 # ────────────────────────────────────────────────────────────────
-# Task 3 – Persistent user layla
+# Task 3 – Timmy
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
 Task 3/9
 ─────────
 
-Now create another user: 'layla'.
-Make sure she has  a home directory and proper bash shell.
+Now, create another user for the other intern: 'timmy'.
+Make sure he has a home directory and proper bash shell.
 
-Then — create three files inside her home directory with these permissions:
+Then — create three files inside his home directory with these permissions:
 
 1. secret.txt     →  (only owner rw)
 2. report.txt     →  (owner rw, group+others r)
@@ -302,31 +196,32 @@ Then — create three files inside her home directory with these permissions:
 Self-check you MUST perform:
 - List the files in long format to verify all is correct
 
-Press Enter to continue...
 EOF
 
-read -p ""
+read -r -p "Press Enter to continue..."
 
 # ────────────────────────────────────────────────────────────────
-# Task 4 – Give layla sudo
+# Task 4 – Give Timmy sudo...
 # ────────────────────────────────────────────────────────────────
 clear
 cat <<EOF
 Task 4/9
 ─────────
-
-Layla will need to run privileged commands later this week.
-Add her to the sudo (or wheel) group — the correct way."
+Timmy just told me he needs sudo permissions to do something... 
+Never take things like this lightly! 
+Timmy is a good guy though, it's fine. Just do it. 
+Add him to the sudo (or wheel) group
 
 Self-check:
-- Check layla's groups → confirm sudo/wheel is there
+- Check timmy's groups → confirm sudo/wheel is there
 - If missing → fix and check again
 
-When layla is in the sudo group,
-press Enter...
+(Open a new SSH connection to your homelab, but now with the timmy's user, 
+and open an instance of vim to simulate he is doing something)
+
 EOF
 
-read -p ""
+read -r -p "When you're done, continue..."
 
 # ────────────────────────────────────────────────────────────────
 # Task 5 – Read important /etc files
@@ -343,57 +238,64 @@ b) Print the names of the users who have a bash shell assigned (use pipes)
 c) What makes the sudo/wheel groups special?
 
 
-When you are ready, press Enter...
 EOF
 
-read -p ""
+read -r -p "Once you answered all, continue..."
 
 # ────────────────────────────────────────────────────────────────
-# Task 6  - Filesystem Hierarchy & Find
+# Task 6  - Find & Locate
 # ────────────────────────────────────────────────────────────────
 clear
+
+mkdir -p ~/sandbox/day1/logs/{app,system} && touch ~/sandbox/day1/logs/app/{error,access,debug}.log && touch ~/sandbox/day1/logs/system/kernel.log
+
 cat <<EOF
 Task 6/9
 ─────────
-Navigate the filesystem like a senior engineer.
+Show me you know how to find files efficiently through the system
 
-1. Find the path to the 'passwd' executable using a command (not guessing).
-2. Create this structure in ~/sandbox/day1:
-   logs/
-   ├── app/
-   └── system/
-3. Inside logs/app, create 3 empty files: error.log, access.log, debug.log
-4. Use ONE command to find all .log files in logs/ and delete them.
+1. Find the path to the passwd executable
+2. List all .log files in ~/sandbox directory
+3. Create the file ~/sandbox/day1/logs/app/secret.log
+4. What will happen if we used the 'locate' command? 
+5. What do we need to do to complete assignment 3 successfully using 'locate'?
 
-When you've completed all steps and verified,
-press Enter...
 EOF
-
-read -p ""
+read -r -p "Continue when ready..."
 
 # ────────────────────────────────────────────────────────────────
 # Task 7  - Text Processing & Pipes
 # ────────────────────────────────────────────────────────────────
 clear
+cat > ~/sandbox/day1/truths.txt << 'END'
+Kubernetes is an open-source container orchestration platform.
+Docker is a platform for developing and running containers.
+Bash is the default shell on most Linux distributions.
+Python is a high-level interpreted programming language.
+Ansible is an agentless automation tool using SSH.
+Terraform is an infrastructure as code tool by HashiCorp.
+Prometheus is a monitoring and alerting toolkit.
+Golang is a statically typed compiled language by Google.
+Kubernetes uses YAML manifests to define resources.
+Docker uses images to create lightweight containers.
+END
 cat <<EOF
 Task 7/9
 ─────────
-Text wrangling without leaving the terminal.
+Let's see your text manipulation and pipe skills
 
-First, run this to create test data:
-  echo -e "nginx\napache\nnginx\nmysql\napache\nnginx" > ~/sandbox/day1/services.txt
+Using this file:   ~/sandbox/day1/services.txt
 
-Now:
-1. Sort the file and remove duplicates (one pipeline).
-2. Count how many lines contain 'nginx'.
-3. Show lines that DON'T contain 'nginx'.
-4. Replace all 'nginx' with 'openresty' in the output (don't modify file).
+1. Sort the file alphabetically and remove duplicates 
+2. Count how many lines contain the word "Kubernetes".
+3. Show lines that contain either "Docker" or "Kubernetes" (case-sensitive)
+4. Show lines that do NOT contain "Python" nor "Bash".
+5. Count the total of words in lines containing "Kubernetes"
 
-When your pipeline-fu is proven,
-press Enter...
 EOF
 
-read -p ""
+read -r -p "When your pipeline-fu is proven, continue..."
+
 
 # ────────────────────────────────────────────────────────────────
 # Task 8  - Process Management
@@ -416,7 +318,7 @@ When processes obey your commands,
 press Enter...
 EOF
 
-read -p ""
+read -r -p ""
 
 # ────────────────────────────────────────────────────────────────
 # Task 9  - Service Management with systemd
@@ -441,208 +343,8 @@ When you've mastered systemd,
 press Enter...
 EOF
 
-read -p ""
+read -r -p ""
 
 cat <<EOF
-═══════════════════════════════════════════════════════════════
-     Kubecraft Daily Warm-up – Day 1 COMPLETE
-═══════════════════════════════════════════════════════════════
-
-You have proven you can:
-✓ Navigate man pages and find commands
-✓ Manage users, groups, and permissions
-✓ Traverse the filesystem and wrangle text
-✓ Control processes and services
-
-Tomorrow: Networking, package management, and system monitoring.
-
-Rest well, engineer.
-EOF
-
-# ────────────────────────────────────────────────────────────────
-# DAY 2 – NETWORK & SYSTEM OPS
-# ────────────────────────────────────────────────────────────────
-
-read -p ""
-clear
-cat <<EOF
-═══════════════════════════════════════════════════════════════
-     DAY 2 – NETWORK OPERATIONS
-═══════════════════════════════════════════════════════════════
-
-Good morning. Today you're troubleshooting connectivity
-and monitoring system health. No GUI tools allowed.
-
-Press Enter to begin...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Day 2 Task 1 - Network Diagnostics
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Day 2 – Task 1/6
-─────────────────
-
-Users report they can't reach the internet.
-
-1. Check your IP address and network interfaces
-2. Verify the default gateway is reachable
-3. Test DNS resolution by pinging google.com (limit to 3 packets)
-4. Check if port 443 is listening locally (HTTPS)
-5. Download a file using curl (save it, don't display it)
-
-When you've diagnosed connectivity,
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Day 2 Task 2 - Log Analysis with Pipes
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Day 2 – Task 2/6
-─────────────────
-
-Analyze this web server log pattern. First create test data:
-
-  cat > /tmp/access.log <<'END'
-  192.168.1.10 - GET /api/users 200
-  192.168.1.11 - POST /api/login 401
-  192.168.1.10 - GET /api/users 200
-  192.168.1.12 - GET /api/admin 403
-  192.168.1.11 - POST /api/login 401
-  192.168.1.10 - GET /api/users 200
-  END
-
-Now:
-1. Extract only the IP addresses (first column)
-2. Sort them and count unique occurrences
-3. Show only IPs that appear more than once
-4. Filter for failed requests (401 or 403 codes) and count them
-
-Use only pipes. No text editors.
-
-When the attack pattern is clear,
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Day 2 Task 3 - Package Management
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Day 2 – Task 3/6
-─────────────────
-
-You need to deploy a monitoring stack.
-
-1. Search for packages containing 'htop' or 'btop'
-2. Check if htop is already installed
-3. Install htop (or confirm it's present)
-4. Verify the installation path using TWO different methods
-5. Purge the package and confirm it's gone
-6. Reinstall it (you'll need it later)
-
-When your package management is surgical,
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Day 2 Task 4 - Disk & Memory Monitoring
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Day 2 – Task 4/6
-─────────────────
-
-The server is running slow. Investigate resource usage.
-
-1. Check how long the system has been up
-2. View memory usage in human-readable format
-3. Find the 3 largest directories under /var/log
-4. Check disk space on all mounted filesystems
-5. Identify which filesystem is mounted on /boot (if any)
-
-BONUS: Find files larger than 100MB in /home
-
-When you know where the space went,
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Day 2 Task 5 - Service Troubleshooting
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Day 2 – Task 5/6
-─────────────────
-
-The SSH service stopped responding.
-
-1. Check if ssh service is currently running
-2. View the last 50 lines of SSH logs
-3. Check if ssh is enabled to start at boot
-4. Restart the ssh service safely
-5. Verify it's listening on port 22
-6. Follow SSH logs in real-time (Ctrl+C when done)
-
-When the service is healthy and monitored,
-press Enter...
-EOF
-
-read -p ""
-
-# ────────────────────────────────────────────────────────────────
-# Day 2 Task 6 - File Search & Permissions
-# ────────────────────────────────────────────────────────────────
-clear
-cat <<EOF
-Day 2 – Task 6/6
-─────────────────
-
-Security audit time. Find potential issues.
-
-1. Find all files in /tmp owned by root (if accessible)
-2. Find all .log files in /var modified in the last 7 days
-3. Create a test file and set permissions so:
-   - Owner can read/write
-   - Group can only read
-   - Others have no access
-4. Create a directory with the same permissions
-5. Test: Can you cd into the directory without execute permission?
-   (This tests your understanding of directory vs file permissions)
-
-When security makes sense,
-press Enter...
-EOF
-
-read -p ""
-
-cat <<EOF
-═══════════════════════════════════════════════════════════════
-     Kubecraft Daily Warm-up – Day 2 COMPLETE
-═══════════════════════════════════════════════════════════════
-
-You have proven you can:
-✓ Diagnose network connectivity
-✓ Analyze logs with pipeline precision
-✓ Manage packages efficiently
-✓ Monitor system resources
-✓ Troubleshoot and control services
-✓ Search files and understand permissions
-
-You're no longer an intern. You're an engineer.
-
-Tomorrow: Bash scripting and automation.
+Coming soon: Networking, system monitoring, and Bash Scripting
 EOF
