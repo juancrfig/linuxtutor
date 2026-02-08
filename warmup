@@ -82,9 +82,10 @@ SSH into your own homelab manually.
 If you have an SSH config for your homelab, delete it. 
 We're building muscle memory.
 
-- Generate a pair of SSH keys in your local machine
-- Define an SSH host alias on your homelab 
-- Make sure password login is disabled on your homelab  
+1. Generate a pair of SSH keys in your local machine
+2. Define an SSH host alias on your homelab 
+3. Add your public key to the authorized keys on the server
+4. Make sure password login is disabled on your homelab
 
 EOF
 
