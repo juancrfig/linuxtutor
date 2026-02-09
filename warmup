@@ -21,7 +21,7 @@ We use the tools the system gives us.
 Prove you can find and read information without exiting the terminal 
 while solving the following challenges, and you will get the job. 
 Fail, and you're out.
-
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "Press Enter to accept the challenge..."
@@ -87,6 +87,7 @@ We're building muscle memory.
 3. Add your public key to the authorized keys on the server
 4. Make sure password login is disabled on your homelab
 
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "Press Enter to continue..."
@@ -99,41 +100,38 @@ cat <<EOF
 Intern, show me you know how to install and manage packages
 
 1. List all packages on the system, find if tmux is installed
-2. If tmux is installed, uninstall it completely
+2. If tmux is installed, uninstall it and its depedencies
 3. Install tmux fresh
 
 Now prove you didn't just apt install and pray. 
-In the real world, binaries hide. Old versions linger.
+In the real world, binaries hide. Old versions linger. Aliases exist.
 
 - If we ran tmux right now, how to find the file or thing the shell would run?
 - What if there's an alias? How to find eveything the shell knows about a name?
-- How to find out if a program was installed manually or via package manager?
-
-
+──────────────────────────────────────────────────────────────────────
 EOF
 
-read -r -p "When you answer those questions, and know what commands use to do so, press Enter..."
+read -r -p "When you answer those questions, and know what commands use to do so,
+press Enter..."
 
 clear
 cat <<EOF
 ═══════════════════════════════════════════════════════════════
                       TMUX NAVIGATION WARMUP
 ═══════════════════════════════════════════════════════════════
-Create a 'work' session and split it vertically with two panes:
-- Left panel: Follow in real time the authentication logs: SSH logins, 
-  sudo attempts, failures)
-- Right panel: Display the entire system journal in real time
+Create a 'tutor' session and split it vertically. 
+Run linuxtutor in one of them from now on, and run the challenges
+on your homelab on the other session. 
 
-Now prove you can actually live in tmux without crying for mouse or custom bindings.
-From now on, I expect from you to always use tmux, WITHOUT custom keybindings. 
+Now, prove you can actually live in tmux without crying for mouse or custom bindings.
 You'll find your own workflow style the more you use it. 
 Show me you know the basics though:
 
 - Detach from the session
 - Create more sessions, navigate among them. Get comfortable!
 - List all tmux sessions
-- Re-attach to your 'work' session
-
+- Re-attach to your 'tutor' session
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "When you have all set, press Enter to start the challenge..."
@@ -151,7 +149,7 @@ Self-check:
 - One shows who is currently logged in.
 - One shows a more detailed view of logged-in users, what they are doing, and CPU usage.
 - One shows your user ID, main group, and secondary groups.
-
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "When you have run all four commands and understand the differences
@@ -172,7 +170,7 @@ Let's start with some Linux gymnastics...
 3. Create a file owned by tmpuser, set it to: owner rw, group r, others nothing. 
 (Use octal permissions mode always!).
 4. Finally — delete tmpuser completely (including home).
-
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "When you're ready, continue..."
@@ -192,11 +190,11 @@ Then — create three files inside his home directory with these permissions:
 
 1. secret.txt     →  (only owner rw)
 2. report.txt     →  (owner rw, group+others r)
-3. script.sh      →  (owner rwx, group+others rx)
+3. script         →  (owner rwx, group+others rx)
 
 Self-check you MUST perform:
 - List the files in long format to verify all is correct
-
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "Press Enter to continue..."
@@ -219,7 +217,7 @@ Self-check:
 
 (Open a new SSH connection to your homelab, but now with the timmy's user, 
 and open an instance of vim to simulate he is doing something)
-
+──────────────────────────────────────────────────────────────────────
 EOF
 
 read -r -p "When you're done, continue..."
@@ -237,7 +235,7 @@ Intern!
 a) What pretty name does this OS/distribution have?
 b) Print the names of the users who have a bash shell assigned (use pipes)
 c) What makes the sudo/wheel groups special?
-
+──────────────────────────────────────────────────────────────────────
 
 EOF
 
@@ -248,7 +246,31 @@ read -r -p "Once you answered all, continue..."
 # ────────────────────────────────────────────────────────────────
 clear
 
-mkdir -p ~/sandbox/day1/logs/{app,system} && touch ~/sandbox/day1/logs/app/{error,access,debug}.log && touch ~/sandbox/day1/logs/system/kernel.log
+mkdir -p ~/sandbox/day1/logs/{app,system}
+
+cat > ~/sandbox/day1/logs/app/error.log <<'END'
+2024-01-01 10:00:00 INFO Application started successfully
+2024-01-01 10:05:12 ERROR Database connection failed
+2024-01-01 10:05:15 WARNING Retrying connection...
+2024-01-01 10:10:00 INFO Connection established
+2024-01-01 10:15:22 ERROR File not found: config.yaml
+2024-01-01 10:20:00 INFO Processing complete
+END
+
+cat > ~/sandbox/day1/logs/app/access.log <<'END'
+192.168.1.100 - GET /home 200
+192.168.1.105 - POST /login 401
+192.168.1.100 - GET /dashboard 200
+END
+
+cat > ~/sandbox/day1/logs/system/kernel.log <<'END'
+Kernel boot complete
+INFO: System initialized
+WARNING: Deprecated driver loaded
+END
+
+touch ~/sandbox/day1/logs/app/debug.log   # empty
+touch ~/sandbox/day1/logs/system/messages.log   # empty
 
 cat <<EOF
 Task 6/9
@@ -256,11 +278,12 @@ Task 6/9
 Show me you know how to find files efficiently through the system
 
 1. Find the path to the passwd executable
-2. List all .log files in ~/sandbox directory
-3. Create the file ~/sandbox/day1/logs/app/secret.log
-4. What will happen if we used the 'locate' command?
-    If the answer is an error, how to fix it?
-
+2. List all .log files in ~/sandbox
+3. Then, using the previous result, show all lines containing "ERROR" (case-insensitive) 
+with 1 line of context before and after each match
+4. List all lines from .log files that do NOT contain "INFO" (case-insensitive)
+5. Find and list all empty .log files under ~/sandbox/day1
+──────────────────────────────────────────────────────────────────────
 EOF
 read -r -p "Continue when ready..."
 
