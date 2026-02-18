@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "started": null,
+  "phase1": {
+    "theory": {
+      "total": 68,
+      "mastered": 0,
+      "review": 0,
+      "unknown": 68,
+      "sessions": []
+    },
+    "labs": {
+      "01-permissions-chaos": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" },
+      "02-process-detective": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" },
+      "03-log-surgeon": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" },
+      "04-network-diagnosis": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" },
+      "05-ssh-lockdown": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" },
+      "06-disk-crisis": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" },
+      "07-broken-service": { "completed": false, "attempts": 0, "last_attempt": null, "notes": "" }
+    }
+  }
+}

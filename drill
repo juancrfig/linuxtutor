@@ -1,0 +1,322 @@
+#!/bin/bash
+set -euo pipefail
+
+# ════════════════════════════════════════════════════════════════
+# DRILL — Daily DevOps Interview Prep
+# ════════════════════════════════════════════════════════════════
+# Usage: ./drill [linux|docker|k8s|quick|both|stats]
+# Default: linux (most important for entry-level roles)
+# ════════════════════════════════════════════════════════════════
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MODULES_DIR="$SCRIPT_DIR/modules"
+PROGRESS_DIR="$SCRIPT_DIR/progress"
+LOG_FILE="$PROGRESS_DIR/drill-log.txt"
+
+MODE="${1:-linux}"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+# ════════════════════════════════════════════════════════════════
+# QUICK MODE — 5-Minute Command Warmups
+# ════════════════════════════════════════════════════════════════
+
+run_quick() {
+    local module="${1:-linux}"
+    
+    case "$module" in
+        docker)
+            if [[ -f "$MODULES_DIR/docker/quick.sh" ]]; then
+                bash "$MODULES_DIR/docker/quick.sh"
+            else
+                echo "Docker quick warmup not found"
+            fi
+            ;;
+        *)
+            echo -e "${YELLOW}Quick warmup only available for Docker right now.${NC}"
+            echo "Try: ./drill quick docker"
+            ;;
+    esac
+}
+
+# ════════════════════════════════════════════════════════════════
+# LINUX MODULE (original drill logic)
+# ════════════════════════════════════════════════════════════════
+
+THEORY_DIR="$MODULES_DIR/linux/theory"
+LABS_DIR="$MODULES_DIR/linux/labs"
+
+DOW=$(date +%u)  # 1=Monday, 7=Sunday
+
+get_topics_for_today() {
+    case $DOW in
+        1|4) echo "1 2" ;;  # Command Line, Process Management
+        2|5) echo "3 4" ;;  # Permissions, Filesystems
+        3|6) echo "5 6" ;;  # Networking, SSH
+        7)   echo "1 2 3 4 5 6" ;;  # Review all
+    esac
+}
+
+get_lab_for_today() {
+    case $DOW in
+        1) echo "01-permissions-chaos" ;;
+        2) echo "02-process-detective" ;;
+        3) echo "03-log-surgeon" ;;
+        4) echo "04-network-diagnosis" ;;
+        5) echo "05-ssh-lockdown" ;;
+        6) echo "06-disk-crisis" ;;
+        7) echo "07-broken-service" ;;
+    esac
+}
+
+get_day_name() {
+    case $DOW in
+        1) echo "Monday" ;; 2) echo "Tuesday" ;; 3) echo "Wednesday" ;;
+        4) echo "Thursday" ;; 5) echo "Friday" ;; 6) echo "Saturday" ;; 7) echo "Sunday" ;;
+    esac
+}
+
+get_topic_name() {
+    case $1 in
+        1) echo "Command Line & Text Processing" ;;
+        2) echo "Process & System Management" ;;
+        3) echo "Permissions & Users" ;;
+        4) echo "Filesystems" ;;
+        5) echo "Networking Basics" ;;
+        6) echo "SSH" ;;
+    esac
+}
+
+pick_questions() {
+    local topic_num="$1"
+    local count="${2:-3}"
+    local theory_file="$MODULES_DIR/linux/theory.md"
+
+    if [[ ! -f "$theory_file" ]]; then
+        echo "Theory file not found: $theory_file"
+        return 1
+    fi
+
+    local questions
+    questions=$(grep -E "^\*\*Q${topic_num}\." "$theory_file")
+    echo "$questions" | shuf | head -n "$count"
+}
+
+run_linux_theory() {
+    clear
+    echo -e "${BOLD}${CYAN}"
+    cat << "EOF"
+╔═══════════════════════════════════════════════════════════╗
+║            LINUX INTERVIEW DRILL — THEORY                ║
+╚═══════════════════════════════════════════════════════════╝
+EOF
+    echo -e "${NC}"
+
+    echo -e "${BLUE}Day:${NC} $(get_day_name) $(date '+%Y-%m-%d')"
+    echo ""
+
+    local topics
+    topics=$(get_topics_for_today)
+    local question_count=0
+
+    for topic in $topics; do
+        local topic_name
+        topic_name=$(get_topic_name "$topic")
+        echo -e "${YELLOW}━━━ $topic_name ━━━${NC}"
+        echo ""
+
+        local questions
+        questions=$(pick_questions "$topic" 3)
+
+        while IFS= read -r q; do
+            if [[ -n "$q" ]]; then
+                ((question_count++))
+                echo -e "${GREEN}$question_count.${NC} ${q//\*\*/}"
+                echo ""
+            fi
+        done <<< "$questions"
+    done
+
+    echo -e "${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "${CYAN}Instructions:${NC}"
+    echo "  • Answer each question OUT LOUD as if you're in an interview"
+    echo "  • Don't just think 'I know this' — articulate it"
+    echo "  • If you can't explain it clearly, mark it for review"
+    echo ""
+
+    read -r -p "Press Enter when you've answered all questions..."
+
+    echo ""
+    echo -e "How did it go? ${BOLD}(g)ood / (o)kay / (b)ad${NC}: "
+    read -r rating
+
+    echo "$(date '+%Y-%m-%d %H:%M') | linux-theory | topics: $topics | rating: $rating | questions: $question_count" >> "$LOG_FILE"
+
+    echo ""
+    echo -e "${GREEN}Session logged.${NC} Keep going! 💪"
+}
+
+run_linux_lab() {
+    clear
+    echo -e "${BOLD}${CYAN}"
+    cat << "EOF"
+╔═══════════════════════════════════════════════════════════╗
+║              LINUX INTERVIEW DRILL — LAB                 ║
+╚═══════════════════════════════════════════════════════════╝
+EOF
+    echo -e "${NC}"
+
+    local lab
+    lab=$(get_lab_for_today)
+    local lab_readme="$LABS_DIR/$lab/README.md"
+    local lab_setup="$LABS_DIR/$lab/setup.sh"
+
+    echo -e "${BLUE}Day:${NC} $(get_day_name) $(date '+%Y-%m-%d')"
+    echo -e "${BLUE}Today's lab:${NC} $lab"
+    echo ""
+
+    if [[ -f "$lab_readme" ]]; then
+        head -6 "$lab_readme" | tail -4
+        echo ""
+    fi
+
+    echo -e "${YELLOW}Options:${NC}"
+    echo "  1. Start the lab (runs setup script)"
+    echo "  2. Read the full lab instructions"
+    echo "  3. Skip lab today"
+    echo ""
+    read -r -p "Choose [1/2/3]: " choice
+
+    case "$choice" in
+        1)
+            echo ""
+            echo -e "${CYAN}Running setup...${NC}"
+            if [[ "$lab" == "01-permissions-chaos" || "$lab" == "02-process-detective" || "$lab" == "07-broken-service" ]]; then
+                echo -e "${YELLOW}This lab needs sudo.${NC}"
+                sudo bash "$lab_setup"
+            else
+                bash "$lab_setup"
+            fi
+            echo ""
+            echo -e "${GREEN}Lab is ready!${NC} Read the tasks:"
+            echo -e "  ${BOLD}cat $lab_readme${NC}"
+            echo ""
+            echo "$(date '+%Y-%m-%d %H:%M') | linux-lab | $lab | started" >> "$LOG_FILE"
+            ;;
+        2)
+            echo ""
+            cat "$lab_readme"
+            echo ""
+            read -r -p "Press Enter to continue..."
+            ;;
+        3)
+            echo "Skipped. Come back tomorrow!"
+            echo "$(date '+%Y-%m-%d %H:%M') | linux-lab | $lab | skipped" >> "$LOG_FILE"
+            ;;
+    esac
+}
+
+# ════════════════════════════════════════════════════════════════
+# DOCKER MODULE
+# ════════════════════════════════════════════════════════════════
+
+run_docker() {
+    echo -e "${CYAN}Docker module${NC}"
+    echo "Quick warmup: ./drill quick docker"
+    echo "Theory questions: Coming soon"
+    echo "Labs: Coming soon"
+}
+
+# ════════════════════════════════════════════════════════════════
+# STATS
+# ════════════════════════════════════════════════════════════════
+
+show_stats() {
+    echo ""
+    echo -e "${BOLD}${CYAN}📊 Drill History${NC}"
+    echo ""
+    if [[ -f "$LOG_FILE" ]]; then
+        local total_sessions
+        total_sessions=$(wc -l < "$LOG_FILE")
+        local linux_theory
+        linux_theory=$(grep -c "linux-theory" "$LOG_FILE" 2>/dev/null || echo 0)
+        local linux_labs
+        linux_labs=$(grep -c "linux-lab.*started" "$LOG_FILE" 2>/dev/null || echo 0)
+
+        echo -e "  Total sessions:   ${GREEN}$total_sessions${NC}"
+        echo -e "  Linux theory:     ${GREEN}$linux_theory${NC}"
+        echo -e "  Linux labs:       ${GREEN}$linux_labs${NC}"
+        echo ""
+        echo -e "  ${BOLD}Last 5 sessions:${NC}"
+        tail -5 "$LOG_FILE" 2>/dev/null | while IFS= read -r line; do
+            echo "    $line"
+        done
+    else
+        echo "  No sessions logged yet. Start drilling!"
+    fi
+    echo ""
+}
+
+# ════════════════════════════════════════════════════════════════
+# MAIN
+# ════════════════════════════════════════════════════════════════
+
+mkdir -p "$PROGRESS_DIR"
+
+case "$MODE" in
+    linux)
+        run_linux_theory
+        echo ""
+        read -r -p "Ready for the lab? (y/n): " do_lab
+        if [[ "$do_lab" == "y" || "$do_lab" == "Y" ]]; then
+            run_linux_lab
+        fi
+        show_stats
+        ;;
+    docker)
+        run_docker
+        ;;
+    k8s|kubernetes)
+        echo -e "${YELLOW}Kubernetes module coming after you finish Kubecraft!${NC}"
+        ;;
+    quick)
+        run_quick "${2:-docker}"
+        ;;
+    stats)
+        show_stats
+        ;;
+    both|all)
+        run_linux_theory
+        echo ""
+        read -r -p "Ready for the lab? (y/n): " do_lab
+        if [[ "$do_lab" == "y" || "$do_lab" == "Y" ]]; then
+            run_linux_lab
+        fi
+        show_stats
+        ;;
+    *)
+        echo "DevOps Interview Drill"
+        echo ""
+        echo "Usage: ./drill [module] [options]"
+        echo ""
+        echo "Modules:"
+        echo "  linux     — Linux fundamentals (Phase 1)"
+        echo "  docker    — Container basics"
+        echo "  k8s       — Kubernetes (coming soon)"
+        echo ""
+        echo "Special:"
+        echo "  quick [module]  — 5-min command warmup"
+        echo "  stats           — View your progress"
+        echo ""
+        echo "Default: ./drill (same as ./drill linux)"
+        exit 1
+        ;;
+esac

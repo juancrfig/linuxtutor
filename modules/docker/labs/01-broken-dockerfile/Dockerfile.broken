@@ -1,0 +1,14 @@
+FROM node:latest
+
+# Install dependencies
+RUN npm install express
+
+# Copy application
+COPY app.js .
+
+# Set environment
+ENV NODE_ENV production
+ENV PORT 3000
+
+# Run as root (default)
+CMD npm start
